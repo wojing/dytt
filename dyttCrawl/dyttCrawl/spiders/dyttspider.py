@@ -33,12 +33,26 @@ class DyttSpider(scrapy.Spider):
         #     "If-Modified-Since": "Thu, 12 Jul 2018 04:27:58 GMT"
         # }
 
-        # for i in detail_urls:
-        #     yield scrapy.Request(host + i, callback=self.parseDetail,headers=headers)
-        i = detail_urls[0]
-        yield scrapy.Request(host + i, callback=self.parseDetail,headers=headers)
+        for i in detail_urls:
+            yield scrapy.Request(host + i, callback=self.parseDetail,headers=headers)
+        # i = detail_urls[0]
+        # yield scrapy.Request(host + i, callback=self.parseDetail,headers=headers)
 
-        next_urls = sel.xpath('//a[.="下一页"]/@href')
+        try:
+            if('count' in response.meta):
+                if(response.meta.get('count')>0 ):
+                    next_urls = sel.xpath('//a[.="下一页"]/@href').extract()[0]
+                    next_url =  "http://www.dytt8.net/html/gndy/dyzz/"+next_urls
+                    # print("next_paget:"+next_url)
+                    x = response.meta.get("count")-1
+                    yield scrapy.Request(next_url,callback=self.parse,meta={"count":x})
+            else:
+                next_urls = sel.xpath('//a[.="下一页"]/@href').extract()[0]
+                next_url =  "http://www.dytt8.net/html/gndy/dyzz/"+next_urls
+                # print("next_paget:"+next_url)
+                yield scrapy.Request(next_url,callback=self.parse,meta={"count":10})
+        except:
+            print("error")
         last_page = sel.xpath('//a[.="末页"]')
 
 
@@ -59,7 +73,6 @@ class DyttSpider(scrapy.Spider):
                 try:
                     each = next(it)
                     if each.startswith('◎译\u3000\u3000名'):
-                        print("yes")
                         # 译名 ◎译\u3000\u3000名\u3000  一共占居6位
                         item['trans_name'] = each[6: len(each)].strip()
                     elif each[0:5] == '◎片\u3000\u3000名':
@@ -150,16 +163,15 @@ class DyttSpider(scrapy.Spider):
                 magnet_link = response.xpath(
                     "//div[@class='co_content8']/ul/tr/td/div/div/td/div/span/div/table/tbody/tr/td/font/a/text()")
 
-            item['magnet_link'] = magnet_link.extract()[0]
+            item['magnet_link'] = magnet_link.extract()
 
             imgs = response.xpath("//div[@class='co_content8']/ul/tr/td/div/td/p/img/@src")
-            if imgs[0] != None:
-                item['image_link'] = imgs[0].extract()
+            if not len(imgs):
+                item['image_link'] = imgs.extract()
 
 
-        yield item
+            yield item
         # https://www.jianshu.com/p/c2b276c0d267
         # https://blog.csdn.net/clayanddev/article/details/53768975
         # https: // pypi.org / project / scrapy - djangoitem / 1.1
 
-        pass

@@ -14,7 +14,6 @@ import django
 
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".."))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'dytt.settings'
-
 django.setup()
 
 BOT_NAME = 'dyttCrawl'
@@ -29,6 +28,7 @@ NEWSPIDER_MODULE = 'dyttCrawl.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+LOG_LEVEL= 'WARNING'
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -37,7 +37,7 @@ ROBOTSTXT_OBEY = True
 # See also autothrottle settings and docs
 #DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 8
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
@@ -72,9 +72,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'dyttCrawl.pipelines.DyttcrawlPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'dyttCrawl.pipelines.DyttcrawlPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

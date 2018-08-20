@@ -8,4 +8,5 @@
 
 class DyttcrawlPipeline(object):
     def process_item(self, item, spider):
+        item.save(commit=True)
         return item
