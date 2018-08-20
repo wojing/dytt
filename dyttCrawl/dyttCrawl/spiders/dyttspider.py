@@ -50,7 +50,8 @@ class DyttSpider(scrapy.Spider):
                 next_urls = sel.xpath('//a[.="下一页"]/@href').extract()[0]
                 next_url =  "http://www.dytt8.net/html/gndy/dyzz/"+next_urls
                 # print("next_paget:"+next_url)
-                yield scrapy.Request(next_url,callback=self.parse,meta={"count":10})
+                yield scrapy.Request(next_url,callback=self.parse,meta={"count":500})
+
         except:
             print("error")
         last_page = sel.xpath('//a[.="末页"]')
