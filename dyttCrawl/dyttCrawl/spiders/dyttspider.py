@@ -50,7 +50,7 @@ class DyttSpider(scrapy.Spider):
                 next_urls = sel.xpath('//a[.="下一页"]/@href').extract()[0]
                 next_url =  "http://www.dytt8.net/html/gndy/dyzz/"+next_urls
                 # print("next_paget:"+next_url)
-                yield scrapy.Request(next_url,callback=self.parse,meta={"count":500})
+                yield scrapy.Request(next_url,callback=self.parse,meta={"count":5000})
 
         except:
             print("error")
@@ -66,7 +66,8 @@ class DyttSpider(scrapy.Spider):
         item['title'] = title
 
         content = response.xpath('//div[@id="Zoom"]/td/p/text()').extract()
-        # print(content)
+        if len(content)< 5:
+            content = response.xpath('//div[@id="Zoom"]/td/text()').extract()
 
         if  len(content):
             it = iter(content)
@@ -163,8 +164,8 @@ class DyttSpider(scrapy.Spider):
             if not len(magnet_link):
                 magnet_link = response.xpath(
                     "//div[@class='co_content8']/ul/tr/td/div/div/td/div/span/div/table/tbody/tr/td/font/a/text()")
-
-            item['magnet_link'] = magnet_link.extract()
+            if magnet_link :
+                item['magnet_link'] = magnet_link[0].extract()
 
             imgs = response.xpath("//div[@class='co_content8']/ul/tr/td/div/td/p/img/@src")
             if not len(imgs):
