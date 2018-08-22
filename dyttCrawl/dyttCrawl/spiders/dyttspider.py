@@ -65,9 +65,16 @@ class DyttSpider(scrapy.Spider):
 
         item['title'] = title
 
+
+
         content = response.xpath('//div[@id="Zoom"]/td/p/text()').extract()
-        if len(content)< 5:
+        if len(content)< 10:
             content = response.xpath('//div[@id="Zoom"]/td/text()').extract()
+
+        if len(content)< 10:
+            content = response.xpath('//div[@id="read_tpc"]/text()').extract()
+        if len(content)< 10:
+            content = response.xpath('//div[@id="Zoom"]/td/p/span/text()').extract()
 
         if  len(content):
             it = iter(content)
@@ -129,9 +136,7 @@ class DyttSpider(scrapy.Spider):
                 except StopIteration:
                     break
 
-                # 下载地址
             magnet_link = response.xpath("//div[@class='co_content8']/ul/tr/td/div/td/table/tbody/tr/td/a/text()")
-
             # 为了兼容 2012 年前的页面
             if not len(magnet_link):
                 magnet_link = response.xpath(
