@@ -173,8 +173,8 @@ class DyttSpider(scrapy.Spider):
                 item['magnet_link'] = magnet_link[0].extract()
 
             imgs = response.xpath("//div[@class='co_content8']/ul/tr/td/div/td/p/img/@src")
-            if not len(imgs):
-                item['image_link'] = imgs.extract()
+            if  len(imgs):
+                item['image_link'] = imgs[0].extract()
 
 
             yield item

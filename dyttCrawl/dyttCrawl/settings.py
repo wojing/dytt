@@ -76,6 +76,9 @@ ITEM_PIPELINES = {
     'dyttCrawl.pipelines.DyttcrawlPipeline': 300,
 }
 
+
+DUPEFILTER_CLASS = 'dyttCrawl.dupliterDetailpage.CustomFilter'
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
