@@ -7,7 +7,7 @@ class CustomFilter(RFPDupeFilter):
     """A dupe filter that considers specific ids in the url"""
     def isListPage(self,url):
         if "list" in url or "index" in url:
-            return False
+            return True
 
     def request_seen(self, request):
         url = request.url

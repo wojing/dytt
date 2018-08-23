@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="referrer" content="no-referrer">
+    <meta charset="UTF-8">
+    {% if film %}
+        <title>{{ film.title }}</title>
+    {% endif %}
+</head>
+<body>
+{% if film %}
+    <h3>{{ film.title }}<h3>
+    {% if film.image_link %}
+        <img src="{{ film.image_link }}">
+        {% else %}
+        <img src="https://images.immediate.co.uk/volatile/sites/3/2017/11/imagenotavailable1-39de324.png?quality=90&lb=410,273&background=white">
+        {% endif %}
+    <p><a href="{{ film.magnet_link }}">{{ film.magnet_link }}</a><p>
+{% endif %}
+
+</body>
+</html>
