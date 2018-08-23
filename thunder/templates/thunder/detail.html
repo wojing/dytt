@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
     {% if film.image_link %}
         <img src="{{ film.image_link }}">
         {% else %}
-        <img src="https://images.immediate.co.uk/volatile/sites/3/2017/11/imagenotavailable1-39de324.png?quality=90&lb=410,273&background=white">
+        <img src={% static "thunder/image/imageNotFound.png" %}/>
         {% endif %}
     <p><a href="{{ film.magnet_link }}">{{ film.magnet_link }}</a><p>
 {% endif %}
