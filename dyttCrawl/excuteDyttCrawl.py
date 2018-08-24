@@ -1,3 +1,7 @@
 from scrapy import cmdline
+import platform
 
-cmdline.execute("scrapy crawl dytt -s JOBDIR=./log".split())
+if platform.system() == "Windowns":
+    cmdline.execute("scrapy crawl dytt -s JOBDIR=/log".split())
+else:
+    cmdline.execute("scrapy crawl dytt -s JOBDIR=./log".split()
